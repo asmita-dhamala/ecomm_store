@@ -1,39 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-        <!-- Breadcrumb Start -->
+
         <div class="breadcrumb-wrap">
             <div class="container-fluid">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item"><a href="#">Products</a></li>
-                    <li class="breadcrumb-item active">Product Detail</li>
+                    <li class="breadcrumb-item active">Product List</li>
                 </ul>
             </div>
         </div>
         <!-- Breadcrumb End -->
-        
-        <!-- Product Detail Start -->
-        <div class="product-detail">
+
+        <!-- Product List Start -->
+        <div class="product-view">
             <div class="container-fluid">
                 <div class="row">
-                    {% for product in detail_product %}
                     <div class="col-lg-8">
-                        <div class="product-detail-top">
-                            <div class="row align-items-center">
-                                <div class="col-md-5">
-                                    <div class="product-slider-single normal-slider">
-                                        <img src="{{product.iamge.url}}" alt="Product Image">
-
-                                    </div>
-                                    <div class="product-slider-single-nav normal-slider">
-                                        <div class="slider-nav-img"><img src="{{product.iamge.url}}" alt="Product Image"></div>
-
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="product-view-top">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="product-search">
+                                                <input type="email" value="Search">
+                                                <button><i class="fa fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="product-short">
+                                                <div class="dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product short by</div>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="#" class="dropdown-item">Newest</a>
+                                                        <a href="#" class="dropdown-item">Popular</a>
+                                                        <a href="#" class="dropdown-item">Most sale</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="product-price-range">
+                                                <div class="dropdown">
+                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a href="#" class="dropdown-item">$0 to $50</a>
+                                                        <a href="#" class="dropdown-item">$51 to $100</a>
+                                                        <a href="#" class="dropdown-item">$101 to $150</a>
+                                                        <a href="#" class="dropdown-item">$151 to $200</a>
+                                                        <a href="#" class="dropdown-item">$201 to $250</a>
+                                                        <a href="#" class="dropdown-item">$251 to $300</a>
+                                                        <a href="#" class="dropdown-item">$301 to $350</a>
+                                                        <a href="#" class="dropdown-item">$351 to $400</a>
+                                                        <a href="#" class="dropdown-item">$401 to $450</a>
+                                                        <a href="#" class="dropdown-item">$451 to $500</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-7">
-                                    <div class="product-content">
-                                        <div class="title"><h2>Product Name</h2></div>
+                            </div>
+                            {% for cat in cat_product %}
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="#">{{cat.name}}</a>
                                         <div class="ratting">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -41,139 +74,50 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                         </div>
-                                        <div class="price">
-                                            <h4>Price:</h4>
-                                            {% if product.discounted_price > 0 %}
-                                            <p>${{product.discounted_price}} <span>${{product.price}}</span></p>
-                                            {% else %}
-                                            <p>${{product.price}}</p>
-                                            {% endif %}
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="product-detail.html">
+                                            <img src="{{cat.image.url}}" alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                            <a href="#"><i class="fa fa-search"></i></a>
                                         </div>
+                                    </div>
+                                    <div class="product-price">
+                                        {% if cat.discounted_price > 0 %}
+                                        <h3><span>$</span>{{cat.discounted_price}}</h3>
+                                        {% else %}
+                                        <h3><span>$</span>{{cat.price}}</h3>
 
-                                        <div class="action">
-                                            <a class="btn" href="/add_to_cart/{{product.slug}}"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
-                                            <a class="btn" href="#"><i class="fa fa-shopping-bag"></i>Buy Now</a>
-                                        </div>
+                                        {% endif %}
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                         </div>
-                        
-                        <div class="row product-detail-bottom">
-                            <div class="col-lg-12">
-                                <ul class="nav nav-pills nav-justified">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
+
+                        <!-- Pagination Start -->
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#reviews">Reviews (1)</a>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
                                     </li>
                                 </ul>
-
-                                <div class="tab-content">
-                                    <div id="description" class="container tab-pane active">
-                                        <h4>Product description</h4>
-                                        <p>
-                                            {{product.description}}
-                                        </p>
-                                    </div>
-                                    <div id="specification" class="container tab-pane fade">
-                                        <h4>Product specification</h4>
-                                        <ul>
-                                            {{product.specification}}
-                                        </ul>
-                                    </div>
-                                    <div id="reviews" class="container tab-pane fade">
-                                        {% for review in product_reviews %}
-                                        <div class="reviews-submitted">
-                                            <div class="reviewer">{{review.username}} - <span>{{review.date}}</span></div>
-                                            <div class="ratting">
-                                                {% for i in 1|ljust:review.star %}
-                                                <i class="fa fa-star"></i>
-                                                {% endfor %}
-                                            </div>
-                                            <p>
-                                                {{review.comment}}
-                                            </p>
-                                        </div>
-                                        {% endfor %}
-                                        {% if user.is_authenticated %}
-                                        <form action = '/product_review/{{product.slug}}' method = 'POST'>
-                                            {% csrf_token %}
-                                        <div class="reviews-submit">
-                                            <h4>Give your Review:</h4>
-                                           <label for="stars">Choose a car:</label>
-
-                                            <select name="star" id="stars">
-                                              <option value="5">5</option>
-                                              <option value="4">4</option>
-                                              <option value="3">3</option>
-                                              <option value="2">2</option>
-                                                <option value="1">1</option>
-                                            </select>
-                                            <div class="row form">
-                                                <div class="col-sm-12">
-                                                    <textarea placeholder="Review" name = "comment"></textarea>
-                                                </div>
-                                                <div class="col-sm-12">
-                                                    <button type = "submit">Submit</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </form>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
+                            </nav>
                         </div>
-                        
-                        <div class="product">
-                            <div class="section-header">
-                                <h1>Related Products</h1>
-                            </div>
-
-                            <div class="row align-items-center product-slider product-slider-3">
-                               {% for related in related_product %}
-                                <div class="col-lg-3">
-                                    <div class="product-item">
-                                        <div class="product-title">
-                                            <a href="#">{{related.name}}</a>
-                                            <div class="ratting">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <div class="product-image">
-                                            <a href="product-detail.html">
-                                                <img src="{{related.iamge.url}}" alt="Product Image">
-                                            </a>
-                                            <div class="product-action">
-                                                <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                                <a href="#"><i class="fa fa-heart"></i></a>
-                                                <a href="#"><i class="fa fa-search"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-price">
-                                            {% if related.discounted_price > 0 %}
-                                            <h3><span>$</span>related.discounted_price</h3>
-                                            {% else %}
-                                            <h3><span>$</span>related.price</h3>
-                                            {% endif %}
-                                            <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        <!-- Pagination Start -->
                     </div>
-                    {% endfor %}
+
                     <!-- Side Bar Start -->
                     <div class="col-lg-4 sidebar">
                         <div class="sidebar-widget category">
@@ -198,7 +142,7 @@
                                 </ul>
                             </nav>
                         </div>
-                        
+
                         <div class="sidebar-widget widget-slider">
                             <div class="sidebar-slider normal-slider">
                                 <div class="product-item">
@@ -214,7 +158,33 @@
                                     </div>
                                     <div class="product-image">
                                         <a href="product-detail.html">
-                                            <img src="{% static 'img/product-7.jpg' %}" alt="Product Image">
+                                            <img src="img/product-10.jpg" alt="Product Image">
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                            <a href="#"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3><span>$</span>99</h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                    </div>
+                                </div>
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="#">Product Name</a>
+                                        <div class="ratting">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="product-detail.html">
+                                            <img src="img/product-9.jpg" alt="Product Image">
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
@@ -253,35 +223,9 @@
                                         <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
                                     </div>
                                 </div>
-                                <div class="product-item">
-                                    <div class="product-title">
-                                        <a href="#">Product Name</a>
-                                        <div class="ratting">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <a href="product-detail.html">
-                                            <img src="{% static 'img/product-9.jpg' %}" alt="Product Image">
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
-                                            <a href="#"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-price">
-                                        <h3><span>$</span>99</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="sidebar-widget brands">
                             <h2 class="title">Our Brands</h2>
                             <ul>
@@ -293,7 +237,7 @@
                                 <li><a href="#">Sagittis</a><span>(28)</span></li>
                             </ul>
                         </div>
-                        
+
                         <div class="sidebar-widget tag">
                             <h2 class="title">Tags Cloud</h2>
                             <a href="#">Lorem ipsum</a>
@@ -314,14 +258,14 @@
                 </div>
             </div>
         </div>
-        <!-- Product Detail End -->
-        
+        <!-- Product List End -->
+
         <!-- Brand Start -->
         <div class="brand">
             <div class="container-fluid">
                 <div class="brand-slider">
-                    <div class="brand-item"><img src="{% static 'img/brand-2.png' %}" alt=""></div>
                     <div class="brand-item"><img src="{% static 'img/brand-1.png' %}" alt=""></div>
+                    <div class="brand-item"><img src="{% static 'img/brand-2.png' %}" alt=""></div>
                     <div class="brand-item"><img src="{% static 'img/brand-3.png' %}" alt=""></div>
                     <div class="brand-item"><img src="{% static 'img/brand-4.png' %}" alt=""></div>
                     <div class="brand-item"><img src="{% static 'img/brand-5.png' %}" alt=""></div>
@@ -330,4 +274,4 @@
             </div>
         </div>
         <!-- Brand End -->
-      {% endblock %}
+{% endblock %}
